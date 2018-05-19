@@ -1,5 +1,6 @@
 .idea
 **/*.html
 **/*.js
+!gulpfile.js
 **/*.map
 node_modules
