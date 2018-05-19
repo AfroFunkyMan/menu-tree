@@ -1,0 +1,126 @@
+:root {
+    --offset-level: 22px;
+}
+
+@keyframes showing {
+    from {height: 0px;}
+    to {height: 44px;}
+}
+
+@keyframes hiding {
+    from {height: 44px;}
+    to {height: 0px;}
+}
+
+
+.drop {
+    display: flex;
+    padding: 50px;
+    flex-direction: column;
+    justify-content: flex-start;
+    list-style-type: none;
+    width: 500px;
+    height: auto;
+    border: 1px solid red;
+    margin-bottom: 3vh;
+}
+
+
+span {
+    display: block;
+    border: 1px solid cadetblue;
+    border-radius: 2px;
+    background: antiquewhite;
+    width: auto;
+    height: calc(100% - 2px);
+}
+
+.main {
+    display: flex;
+    padding: 50px;
+    flex-direction: column;
+    justify-content: flex-start;
+    list-style-type: none;
+    width: 500px;
+    height: auto;
+    border: 1px solid red;
+    margin-bottom: 3vh;
+}
+
+li {
+    list-style-position:inside;
+    display: block;
+    width: auto;
+    margin: 2px;
+    height: 44px;
+    border: 1px solid green;
+}
+
+.animate__down {
+}
+
+.animate__up {
+}
+
+
+.placeholder {
+    display: none;
+    background: coral;
+    order: 100;
+}
+
+
+.placeholder__showing {
+    display: none;
+    animation: showing 0.1s ease;
+}
+
+.placeholder__hiding {
+    display: block;
+    animation: hiding 0.1s ease;
+}
+
+span[data-level="1"] {
+    margin-left: calc(0 * var(--offset-level));
+}
+
+span[data-level="2"] {
+    margin-left: calc(1 * var(--offset-level));
+}
+
+span[data-level="3"] {
+    margin-left: calc(2 * var(--offset-level));
+}
+
+span[data-level="4"] {
+    margin-left: calc(3 * var(--offset-level));
+}
+
+span[data-level="5"] {
+    margin-left: calc(4 * var(--offset-level));
+}
+
+
+li[data-index="2"] {
+    order: 2;
+}
+
+li[data-index="3"] {
+    order: 3;
+}
+
+li[data-index="4"] {
+    order: 4;
+}
+
+li[data-index="5"] {
+    order: 5;
+}
+
+li[data-index="6"] {
+    order: 6;
+}
+
+li[data-index="7"] {
+    order: 7;
+}
