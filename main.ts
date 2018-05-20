@@ -14,14 +14,16 @@ class PlaceHolderChanger {
         offsetTop: 0
     };
 
-    swapEnd = true;
-
-    cache: any;
 
     constructor(selector: string) {
         this.handleElement = document.querySelector(selector);
-        this.placeholder= document.getElementById('placeholder');
-        this.placeholder.style.display = 'none';
+        const placeholder = document.createElement('li');
+        placeholder.className = 'placeholder';
+        placeholder.style.display = 'none';
+        placeholder.setAttribute('id', 'placeholder');
+        this.handleElement.appendChild(placeholder);
+        this.placeholder = placeholder;
+        this.placeholder.animated = false;
         this.initHandlers();
     }
 
@@ -43,7 +45,8 @@ class PlaceHolderChanger {
 
 
     initHandlers(): void {
-        document.querySelectorAll('li').forEach(dragElement => {
+        this.handleElement.querySelectorAll('li').forEach(dragElement => {
+            dragElement.setAttribute('draggable', 'true');
             dragElement.ondragstart = this.onDragStart.bind(this);
             dragElement.ondragend = this.onDragEnd.bind(this);
         });
@@ -71,45 +74,57 @@ class PlaceHolderChanger {
     }
 
     cursorOverTask(event): void {
-        const leftXPoint = 500;
+        const leftXPoint = 70;
         const topYPoint = event.clientY + this.dragItemCoordsOffset.offsetTop;
-        const elem = document.elementFromPoint(leftXPoint, topYPoint);
-        if (elem.tagName === 'LI' && !elem.classList.contains('placeholder')) {
-            console.log('li');
-            const index = parseInt(elem.getAttribute('data-index'));
-            const mustBe = elem.offsetTop + elem.offsetHeight / 2 > topYPoint ? index : index - 1;
-            const placeholderIndex = +this.placeholder.style.order;
-            if (placeholderIndex !== mustBe && this.swapEnd === true) {
-                this.swapEnd = false;
-                const prevRect = this.placeholder.getBoundingClientRect();
-                this.placeholder.style.order = mustBe;
-                const newRect = this.placeholder.getBoundingClientRect();
+        const topElement = document.elementFromPoint(leftXPoint, topYPoint - 55);
+        const bottomElement = document.elementFromPoint(leftXPoint, topYPoint + 55);
+        if (topElement.hasAttribute('draggable') && bottomElement.hasAttribute('draggable')) {
+            const newOrder = topElement.getAttribute('data-index');
+            return this.animate(newOrder);
+        }
+        if (topElement.className === 'placeholder' && bottomElement.hasAttribute('draggable')) {
+            const newOrder = (parseInt(bottomElement.getAttribute('data-index')) - 1).toString();
+            return this.animate(newOrder);
+        }
+        if (topElement.hasAttribute('draggable') && bottomElement.className === 'placeholder') {
+            const newOrder = topElement.getAttribute('data-index');
+            return this.animate(newOrder);
+        }
 
-                this.placeholder.style.transition = 'none';
-                this.placeholder.style.transform = 'translate3d('
-                    + (prevRect.left - newRect.left) + 'px,'
-                    + (prevRect.top - newRect.top) + 'px,0)';
+        if (topElement.tagName === 'UL' && bottomElement.hasAttribute('draggable')) {
+            return this.animate("1");
+        }
 
-                const forRepaintDummy = this.placeholder.offsetWidth; // repaint
-
-                this.placeholder.style.transition = 'all .4s';
-                this.placeholder.style.transform = 'translate3d(0,0,0)';
-
-                clearTimeout(this.placeholder.animated);
-                this.placeholder.animated = setTimeout(this.resetAnimationStyles.bind(this), 400);
-                setTimeout(this.resetSwapEnd.bind(this), 400);
-            }
+        if (topElement.hasAttribute('draggable') && bottomElement.tagName === 'UL') {
+            return this.animate("10000");
         }
     }
 
-    resetAnimationStyles(): void {
-        this.placeholder.style.transition = 'all 1s';
+    animate(newOrder) {
+        if (this.placeholder.animated !== false) return null;
+        const prevRect = this.placeholder.getBoundingClientRect();
+        this.placeholder.style.order = newOrder;
+        const newRect = this.placeholder.getBoundingClientRect();
+
+        this.placeholder.style.transition = 'none';
+        this.placeholder.style.transform = 'translate3d('
+            + (prevRect.left - newRect.left) + 'px,'
+            + (prevRect.top - newRect.top) + 'px,0)';
+
+        const forRepaintDummy = this.placeholder.offsetWidth; // repaint
+
+        this.placeholder.style.transition = 'all 150ms';
         this.placeholder.style.transform = 'translate3d(0,0,0)';
-        this.placeholder.animated = false;
+
+        clearTimeout(this.placeholder.animated);
+        this.placeholder.animated = setTimeout(this.resetAnimationStyles.bind(this), 150);
     }
 
-    resetSwapEnd(): void {
-        this.swapEnd = true;
+
+    resetAnimationStyles(): void {
+        this.placeholder.style.transition = '';
+        this.placeholder.style.transform = '';
+        this.placeholder.animated = false;
     }
 
 }
