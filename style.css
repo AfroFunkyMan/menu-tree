@@ -39,11 +39,10 @@ li {
     list-style-position:inside;
     display: block;
     width: auto;
-    margin: 2px;
-    height: 44px;
+    padding: 2px;
     border: 1px solid green;
+    height: 44px;
 }
-
 
 .placeholder {
     will-change: auto;
