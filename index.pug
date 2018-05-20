@@ -4,14 +4,13 @@ head
     link( rel="stylesheet" type="text/css" href="/style.css")
 body
     ul.drop
-
-    ul.main()
-        li(draggable="true" data-position=1 data-index=2 data-parent=0 data-level=1) 1243
-        li(draggable="true" data-position=1 data-index=3 data-parent=1 data-level=2) 14324
-        li(draggable="true" data-position=1 data-index=4 data-parent=2 data-level=3) 41324
-        li(draggable="true" data-position=2 data-index=5 data-parent=2 data-level=4) 1234
-        li(draggable="true" data-position=1 data-index=6 data-parent=4 data-level=5) 41234
-        li(draggable="true" data-position=1 data-index=7 data-parent=5 data-level=5) 142342
+    ul.main
+        li(data-index=2 data-level=1) 1243
+        li(data-index=3 data-level=2) 14324
+        li(data-index=4 data-level=3) 41324
+        li(data-index=5 data-level=4) 1234
+        li(data-index=6 data-level=5) 41234
+        li(data-index=7 data-level=5) 142342
     ul.drop
-        li(draggable="true"): span(data-level=5) 67841234
+        li(draggable="true") 67841234
     script(src="/main.js" type="text/javascript")

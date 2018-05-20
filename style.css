@@ -14,15 +14,6 @@
     margin-bottom: 3vh;
 }
 
-span {
-    display: block;
-    border: 1px solid cadetblue;
-    border-radius: 2px;
-    background: antiquewhite;
-    width: auto;
-    height: calc(100% - 2px);
-}
-
 .main {
     display: flex;
     padding: 50px;
@@ -48,29 +39,8 @@ li {
     will-change: auto;
     display: none;
     background: coral;
-    order: 100;
+    order: 10000;
 }
-
-span[data-level="1"] {
-    margin-left: calc(0 * var(--offset-level));
-}
-
-span[data-level="2"] {
-    margin-left: calc(1 * var(--offset-level));
-}
-
-span[data-level="3"] {
-    margin-left: calc(2 * var(--offset-level));
-}
-
-span[data-level="4"] {
-    margin-left: calc(3 * var(--offset-level));
-}
-
-span[data-level="5"] {
-    margin-left: calc(4 * var(--offset-level));
-}
-
 
 li[data-index="2"] {
     order: 2;

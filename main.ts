@@ -17,12 +17,11 @@ class PlaceHolderChanger {
 
     constructor(selector: string) {
         this.handleElement = document.querySelector(selector);
-        const placeholder = document.createElement('li');
+        const placeholder = document.createElement('LI');
         placeholder.className = 'placeholder';
-        placeholder.style.display = 'none';
         placeholder.setAttribute('id', 'placeholder');
         this.handleElement.appendChild(placeholder);
-        this.placeholder = placeholder;
+        this.placeholder= document.getElementById('placeholder');
         this.placeholder.animated = false;
         this.initHandlers();
     }
@@ -46,12 +45,11 @@ class PlaceHolderChanger {
 
     initHandlers(): void {
         this.handleElement.querySelectorAll('li').forEach(dragElement => {
-            dragElement.setAttribute('draggable', 'true');
+            if (dragElement.className !== 'placeholder') dragElement.setAttribute('draggable', 'true');
             dragElement.ondragstart = this.onDragStart.bind(this);
             dragElement.ondragend = this.onDragEnd.bind(this);
         });
         document.ondragover = this.checkDelta.bind(this);
-        document.ondragleave = this.checkDelta.bind(this);
     }
 
 
@@ -66,18 +64,15 @@ class PlaceHolderChanger {
     }
 
     cursorInMe(cursorX, cursorY): boolean {
-        //const leftXPoint = cursorX - this.dragItemCoordsOffset.offsetLeft;
         const topYPoint = cursorY + this.dragItemCoordsOffset.offsetTop;
         return topYPoint >= this.coords.leftY && topYPoint <= this.coords.rightY
-        // return (leftXPoint >= this.coords.leftX && leftXPoint <= this.coords.rightX) &&
-        //     (topYPoint >= this.coords.leftY && topYPoint <= this.coords.rightY)
     }
 
     cursorOverTask(event): void {
         const leftXPoint = 70;
         const topYPoint = event.clientY + this.dragItemCoordsOffset.offsetTop;
-        const topElement = document.elementFromPoint(leftXPoint, topYPoint - 55);
-        const bottomElement = document.elementFromPoint(leftXPoint, topYPoint + 55);
+        const topElement = document.elementFromPoint(leftXPoint, topYPoint - 50);
+        const bottomElement = document.elementFromPoint(leftXPoint, topYPoint + 50);
         if (topElement.hasAttribute('draggable') && bottomElement.hasAttribute('draggable')) {
             const newOrder = topElement.getAttribute('data-index');
             return this.animate(newOrder);
@@ -119,7 +114,6 @@ class PlaceHolderChanger {
         clearTimeout(this.placeholder.animated);
         this.placeholder.animated = setTimeout(this.resetAnimationStyles.bind(this), 150);
     }
-
 
     resetAnimationStyles(): void {
         this.placeholder.style.transition = '';
