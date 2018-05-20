@@ -74,15 +74,15 @@ class PlaceHolderChanger {
         const topElement = document.elementFromPoint(leftXPoint, topYPoint - 50);
         const bottomElement = document.elementFromPoint(leftXPoint, topYPoint + 50);
         if (topElement.hasAttribute('draggable') && bottomElement.hasAttribute('draggable')) {
-            const newOrder = topElement.getAttribute('data-index');
+            const newOrder = topElement.style.order;
             return this.animate(newOrder);
         }
         if (topElement.className === 'placeholder' && bottomElement.hasAttribute('draggable')) {
-            const newOrder = (parseInt(bottomElement.getAttribute('data-index')) - 1).toString();
+            const newOrder = (parseInt(bottomElement.style.order) - 1).toString();
             return this.animate(newOrder);
         }
         if (topElement.hasAttribute('draggable') && bottomElement.className === 'placeholder') {
-            const newOrder = topElement.getAttribute('data-index');
+            const newOrder = topElement.style.order;
             return this.animate(newOrder);
         }
 
