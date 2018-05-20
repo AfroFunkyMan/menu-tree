@@ -2,17 +2,6 @@
     --offset-level: 22px;
 }
 
-@keyframes showing {
-    from {height: 0px;}
-    to {height: 44px;}
-}
-
-@keyframes hiding {
-    from {height: 44px;}
-    to {height: 0px;}
-}
-
-
 .drop {
     display: flex;
     padding: 50px;
@@ -24,7 +13,6 @@
     border: 1px solid red;
     margin-bottom: 3vh;
 }
-
 
 span {
     display: block;
@@ -56,28 +44,12 @@ li {
     border: 1px solid green;
 }
 
-.animate__down {
-}
-
-.animate__up {
-}
-
 
 .placeholder {
+    will-change: auto;
     display: none;
     background: coral;
     order: 100;
-}
-
-
-.placeholder__showing {
-    display: none;
-    animation: showing 0.1s ease;
-}
-
-.placeholder__hiding {
-    display: block;
-    animation: hiding 0.1s ease;
 }
 
 span[data-level="1"] {

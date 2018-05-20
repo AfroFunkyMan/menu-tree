@@ -1,8 +1,7 @@
 class PlaceHolderChanger {
 
     handleElement;
-    activePlaceHolder;
-    hidePlaceholder;
+    placeholder;
     coords = {
         leftX: 0,
         leftY: 0,
@@ -21,14 +20,13 @@ class PlaceHolderChanger {
 
     constructor(selector: string) {
         this.handleElement = document.querySelector(selector);
-        this.activePlaceHolder= document.getElementById('first-placeholder');
-        this.activePlaceHolder.style.display = 'none';
-        this.hidePlaceholder = document.getElementById('second-placeholder');
+        this.placeholder= document.getElementById('placeholder');
+        this.placeholder.style.display = 'none';
         this.initHandlers();
     }
 
     onDragStart(event): void {
-        this.activePlaceHolder.style.order = '100';
+        this.placeholder.style.order = '10000';
         this.coords = {
             leftX : this.handleElement.offsetLeft,
             leftY : this.handleElement.offsetTop,
@@ -40,7 +38,7 @@ class PlaceHolderChanger {
     }
 
     onDragEnd(): void {
-        this.activePlaceHolder.style.display = 'none';
+        this.placeholder.style.display = 'none';
     }
 
 
@@ -51,21 +49,19 @@ class PlaceHolderChanger {
         });
         document.ondragover = this.checkDelta.bind(this);
         document.ondragleave = this.checkDelta.bind(this);
-        this.activePlaceHolder.addEventListener('animationend', this.onAnimationEnd);
-        this.hidePlaceholder.addEventListener('animationend', this.onAnimationEnd);
     }
 
 
     checkDelta(event): void {
         if (this.cursorInMe(event.clientX, event.clientY)) {
-            this.activePlaceHolder.style.display = 'block';
+            this.placeholder.style.display = 'block';
             this.cursorOverTask(event);
         }
         else {
-            this.activePlaceHolder.style.display = 'none';
-            this.hidePlaceholder.style.display = 'none';
+            if (this.placeholder.style === 'block') this.placeholder.style.display = 'none';
         }
     }
+
     cursorInMe(cursorX, cursorY): boolean {
         //const leftXPoint = cursorX - this.dragItemCoordsOffset.offsetLeft;
         const topYPoint = cursorY + this.dragItemCoordsOffset.offsetTop;
@@ -75,38 +71,46 @@ class PlaceHolderChanger {
     }
 
     cursorOverTask(event): void {
-        const leftXPoint = 70;
+        const leftXPoint = 500;
         const topYPoint = event.clientY + this.dragItemCoordsOffset.offsetTop;
         const elem = document.elementFromPoint(leftXPoint, topYPoint);
         if (elem.tagName === 'LI' && !elem.classList.contains('placeholder')) {
+            console.log('li');
             const index = parseInt(elem.getAttribute('data-index'));
             const mustBe = elem.offsetTop + elem.offsetHeight / 2 > topYPoint ? index : index - 1;
-            const placeholderIndex = +this.activePlaceHolder.style.order;
+            const placeholderIndex = +this.placeholder.style.order;
             if (placeholderIndex !== mustBe && this.swapEnd === true) {
                 this.swapEnd = false;
-                this.hidePlaceholder.style.order = mustBe;
-                this.hidePlaceholder.classList.remove('placeholder__hiding');
-                this.activePlaceHolder.classList.remove('placeholder__showing');
-                void this.activePlaceHolder.offsetWidth;
-                void this.hidePlaceholder.offsetWidth;
-                this.activePlaceHolder.classList.add('placeholder__hiding');
-                this.hidePlaceholder.classList.add('placeholder__showing');
-                [this.activePlaceHolder, this.hidePlaceholder] = [this.hidePlaceholder, this.activePlaceHolder];
-                setTimeout(this.resetSwapEnd.bind(this), 200);
+                const prevRect = this.placeholder.getBoundingClientRect();
+                this.placeholder.style.order = mustBe;
+                const newRect = this.placeholder.getBoundingClientRect();
+
+                this.placeholder.style.transition = 'none';
+                this.placeholder.style.transform = 'translate3d('
+                    + (prevRect.left - newRect.left) + 'px,'
+                    + (prevRect.top - newRect.top) + 'px,0)';
+
+                const forRepaintDummy = this.placeholder.offsetWidth; // repaint
+
+                this.placeholder.style.transition = 'all .4s';
+                this.placeholder.style.transform = 'translate3d(0,0,0)';
+
+                clearTimeout(this.placeholder.animated);
+                this.placeholder.animated = setTimeout(this.resetAnimationStyles.bind(this), 400);
+                setTimeout(this.resetSwapEnd.bind(this), 400);
             }
         }
+    }
+
+    resetAnimationStyles(): void {
+        this.placeholder.style.transition = 'all 1s';
+        this.placeholder.style.transform = 'translate3d(0,0,0)';
+        this.placeholder.animated = false;
     }
 
     resetSwapEnd(): void {
         this.swapEnd = true;
     }
-
-    onAnimationEnd(event): void {
-        if (event.animationName === 'hiding') {
-            event.target.style.display = 'none';
-        }
-    }
-
 
 }
 
