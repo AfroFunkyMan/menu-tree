@@ -4,3 +4,5 @@
 !gulpfile.js
 **/*.map
 node_modules
+.history
+log.md

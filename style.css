@@ -1,5 +1,5 @@
 :root {
-    --offset-level: 22px;
+    background-color: rgb(224, 224, 224);
 }
 
 .drop {
@@ -41,37 +41,34 @@ li {
     width: auto;
     margin: 2px;
     height: 44px;
-    border: 1px solid green;
 }
 
-
-.placeholder {
-    will-change: auto;
-    display: none;
-    background: coral;
-    order: 100;
+.task-wrapper {
+    display: grid;
+    grid-template-columns: [line1] 10% [line2] 10% [line3] 10% [line4] 10% [line5] 60% [line6];
+    grid-template-rows: 100%;
 }
 
-span[data-level="1"] {
-    margin-left: calc(0 * var(--offset-level));
+.task {
+    background-color: white;
+    grid-column: 1 / end;
 }
 
-span[data-level="2"] {
-    margin-left: calc(1 * var(--offset-level));
+.task[data-level="2"] {
+    grid-column: 2 / end;
 }
 
-span[data-level="3"] {
-    margin-left: calc(2 * var(--offset-level));
+.task[data-level="3"] {
+    grid-column: 3 / end;
 }
 
-span[data-level="4"] {
-    margin-left: calc(3 * var(--offset-level));
+.task[data-level="4"] {
+    grid-column: 4 / end;
 }
 
-span[data-level="5"] {
-    margin-left: calc(4 * var(--offset-level));
+.task[data-level="5"] {
+    grid-column: 5 / end;
 }
-
 
 li[data-index="2"] {
     order: 2;
@@ -96,3 +93,40 @@ li[data-index="6"] {
 li[data-index="7"] {
     order: 7;
 }
+
+.placeholder {
+    will-change: auto;
+    display: none;
+    order: 100;
+    display: grid;
+    position: relative;
+}
+
+.placeholder__segment {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: rgba(33, 222, 33, 0.2);
+}
+
+.placeholder__segment:nth-child(1){
+    width: 100%;
+}
+
+.placeholder__segment:nth-child(2){
+    width: 90%;
+}
+
+.placeholder__segment:nth-child(3){
+    width: 80%;
+}
+
+.placeholder__segment:nth-child(4){
+    width: 70%;
+}
+
+.placeholder__segment:nth-child(5){
+    width: 60%;
+}
+

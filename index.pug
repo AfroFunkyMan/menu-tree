@@ -6,13 +6,19 @@ body
     ul.drop
 
     ul.main()
-        li(draggable="true" data-position=1 data-index=2 data-parent=0): span(data-level=1) 123
-        li(draggable="true" data-position=1 data-index=3 data-parent=1): span(data-level=2) 234
-        li(draggable="true" data-position=1 data-index=4 data-parent=2): span(data-level=3) 345
-        li(draggable="true" data-position=2 data-index=5 data-parent=2): span(data-level=3) 456
-        li(draggable="true" data-position=1 data-index=6 data-parent=4): span(data-level=4) 567
-        li(draggable="true" data-position=1 data-index=7 data-parent=5): span(data-level=5) 678
+
+        li.task-wrapper(draggable="true" data-position=1 data-index=3 data-parent=1): .task(data-level=2) 234
+        li.task-wrapper(draggable="true" data-position=1 data-index=2 data-parent=0): .task(data-level=1) 123
+        li.task-wrapper(draggable="true" data-position=1 data-index=4 data-parent=2): .task(data-level=3) 345
+        li.task-wrapper(draggable="true" data-position=2 data-index=5 data-parent=2): .task(data-level=3) 456
+        li.task-wrapper(draggable="true" data-position=1 data-index=6 data-parent=4): .task(data-level=4) 567
+        li.task-wrapper(draggable="true" data-position=1 data-index=7 data-parent=5): .task(data-level=5) 678
         li#placeholder().placeholder
+            .placeholder__segment
+            .placeholder__segment
+            .placeholder__segment
+            .placeholder__segment
+            .placeholder__segment
     ul.drop
         li(draggable="true"): span(data-level=5) 67841234
     script(src="/main.js" type="text/javascript")
